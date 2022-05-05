@@ -4,6 +4,7 @@
 0001 means or
 0010 means add
 0110 means or
+0111 passes the input b
 otherwise value would not change
 ******************************************************************/
 
@@ -36,6 +37,11 @@ module alu(a, b, out, clk,  zero, op);
 					tmp = 1'b1;
 				else
 					tmp = 1'b0;
+			end
+		4'b0111:
+			begin
+				result = b;
+				tmp = (b == 4'b0000) ? 1'b1 : 1'b0;
 			end
 		endcase
 	end

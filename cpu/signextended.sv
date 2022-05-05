@@ -3,35 +3,56 @@ will sign extended 9 bits to 32 bit values
 ***************************************************************************************************/
 
 
-module sign_extended(in9, out32);
-	input wire [8:0] in9;
+module sign_extended(in32, out32);
+	input wire [31:0] in32;
 	output wire[31:0] out32;
 
-	assign out32[8:0] = in9;
-	assign out32 [31:9] = {23{in9[8]}};
+	reg[31:0]  out;
+	assign out32 = out;
+
+	always @ (in32) begin
+		if (in32[26] == 1'b1) // means branch
+			out = {{13 {in32[23]}}, in32[23:5]};
+		else // means store or load
+			out = {{23 {in32[20]}}, in32[20:12]};
+	end
 endmodule
 
 
 module tb_sign_extended;
-
-	reg[8:0] in9;
-	wire [31:0] out;
+	reg[31:0] in32;
+	wire[31:0] out;
 
 	sign_extended u0(
-		.in9(in9),
+		.in32(in32),
 		.out32(out)
 	);
 
+
 	initial begin
-		in9 = 9'b100000001;
+		in32[26] = 1'b0;
+		in32[20:12] = 9'b101001011;
 		#10;
+		$display("input %b, output %b", in32, out);
 
-		$display("in %b ,out %b", in9, out);
-
-		in9 = 9'b011111111;
+		in32[26] = 1'b0;
+		in32[20:12] = 9'b001001011;
 		#10;
+		$display("input %b, output %b", in32, out);
 
-		$display("in %b ,out %b", in9, out);
+		$display("----");
+		
+		in32[26] = 1'b1;
+		in32[23:5] = 19'b1010010111011010000;
+		#10;
+		$display("input %b, output %b", in32, out);
+
+		in32[26] = 1'b1;
+		in32[23:5] = 19'b0010010111011010000;
+		#10;
+		$display("input %b, output %b", in32, out);
+
+
 	end
 
 endmodule
