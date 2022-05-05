@@ -34,7 +34,7 @@ module mem(address, read_enable, write_enable, clk, data, out);
 		end
 	end
 endmodule
-
+/*
 
 module tb_mem;
 	reg[31:0] address, data;
@@ -89,3 +89,5 @@ module tb_mem;
 	
 
 endmodule
+
+*/

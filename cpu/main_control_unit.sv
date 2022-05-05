@@ -36,7 +36,6 @@ module main_control_unit(
 	always @ (ins) begin
 		if (ins[5] == 1'b1) begin
 			// means cbz
-			$display("compare and branch");
 			in_reg_aluop = 2'b01;
 			in_reg_reg2loc = 1'b1;
 			in_reg_alusrc = 1'b0;
@@ -48,8 +47,6 @@ module main_control_unit(
 		end
 		else if (ins[1] == 1'b1) begin
 			// means ldr
-			$display("load");
-			in_reg_reg2loc = 'x; // this just for simulation
 			in_reg_aluop = 2'b00;
 			in_reg_alusrc = 1'b1;
 			in_reg_memtoreg = 1'b1;
@@ -60,7 +57,6 @@ module main_control_unit(
 		end
 		else if (ins[4] == 1'b1) begin
 			// means R-format
-			$display("R-Format");
 			in_reg_aluop = 2'b10;
 			in_reg_regwrite = 1'b1;
 			in_reg_reg2loc = 1'b0;
@@ -72,7 +68,6 @@ module main_control_unit(
 		end
 		else begin
 			// means str
-			$display("store");
 			in_reg_aluop = 2'b00;
 			in_reg_reg2loc = 1'b1;
 			in_reg_alusrc = 1'b1;
@@ -85,7 +80,7 @@ module main_control_unit(
 
 endmodule
 
-
+/*
 module displ(
 	input wire reg2loc,
 	input wire alusrc,
@@ -210,3 +205,4 @@ module tb_main_control_unit;
 	end
 
 endmodule
+*/

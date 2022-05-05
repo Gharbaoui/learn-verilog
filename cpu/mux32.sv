@@ -14,7 +14,7 @@ module mux32(a, b, sel, out);
 	assign out = sel ? b : a;
 endmodule
 
-
+/*
 module tb_mux32;
 	reg[31:0] a, b;
 	wire[31:0] out;
@@ -39,3 +39,4 @@ module tb_mux32;
 	end
 
 endmodule
+*/

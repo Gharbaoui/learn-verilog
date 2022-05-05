@@ -9,7 +9,7 @@ module adder(a, b, out);
 	assign out = a + b;
 endmodule
 
-
+/*
 module tb_adder;
 	reg[31:0] a, b;
 	wire[31:0] out;
@@ -27,3 +27,4 @@ module tb_adder;
 		$display("a = %h, b = %h, out = %h", a, b, out);
 	end
 endmodule
+*/

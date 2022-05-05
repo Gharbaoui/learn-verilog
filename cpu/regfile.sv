@@ -33,7 +33,7 @@ module regfile(r1, r2, wrn, wrd, we, clk, out1, out2);
 	
 endmodule
 
-
+/*
 module tb_regfile;
 
 	reg[4:0] R1, R2, WRN;
@@ -83,3 +83,5 @@ module tb_regfile;
 		$finish;
 	end
 endmodule
+
+*/

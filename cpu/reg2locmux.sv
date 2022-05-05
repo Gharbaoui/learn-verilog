@@ -16,7 +16,7 @@ module reg2locmux(r_type_pos, str_load_cbz, sel, out);
 
 	assign out = sel ? str_load_cbz : r_type_pos;
 endmodule
-
+/*
 module tb_reg2locmux;
 	reg[4:0] r_pos, str_pos;
 	wire[4:0] out;
@@ -41,3 +41,4 @@ module tb_reg2locmux;
 	end
 
 endmodule
+*/

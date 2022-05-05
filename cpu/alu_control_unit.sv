@@ -33,7 +33,7 @@ module alu_control_unit(ins,aluop, out);
 	end
 endmodule
 
-
+/*
 module tb_alu_control_unit;
 	reg[31:0] ins;
 	reg[1:0] op;
@@ -85,3 +85,4 @@ module tb_alu_control_unit;
 		$display("--------------------------------------------");
 	end
 endmodule
+*/

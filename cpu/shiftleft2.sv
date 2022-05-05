@@ -11,7 +11,7 @@ module shiftleft2(in32, out32);
 	assign out32 = { in32[29:0], 2'b00 };
 endmodule
 
-
+/*
 module tb_shiftleft2;
 	reg [31:0] in;
 	wire[31:0] out;
@@ -27,3 +27,4 @@ module tb_shiftleft2;
 		$display("in %b, out %b", in, out);
 	end
 endmodule
+*/

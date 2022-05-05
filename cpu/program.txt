@@ -1,2 +1,5 @@
-aa bb 1f 00
-44 55 fc ea
+add r2, r3, r5
+sub r2, r3, r5
+str r1 r2 0x55
+cbz r10, 255
+

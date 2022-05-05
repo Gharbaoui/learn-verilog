@@ -18,7 +18,7 @@ module sign_extended(in32, out32);
 	end
 endmodule
 
-
+/*
 module tb_sign_extended;
 	reg[31:0] in32;
 	wire[31:0] out;
@@ -56,3 +56,4 @@ module tb_sign_extended;
 	end
 
 endmodule
+*/

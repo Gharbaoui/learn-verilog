@@ -46,7 +46,7 @@ module alu(a, b, out, clk,  zero, op);
 		endcase
 	end
 endmodule
-
+/*
 module alu_test;
 
 	reg [31:0] A, B;
@@ -125,3 +125,5 @@ module alu_test;
 		$finish;
 	end
 endmodule
+
+*/
