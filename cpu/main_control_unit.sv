@@ -5,6 +5,7 @@ depending on the 11bit opcode field
 
 module main_control_unit(
 	input wire[10:0] ins, // 11 bit instruction
+	input wire clk, turonofclk, // i will use this to set data of memwrite and regwrite only at posedge of clk
 	output wire reg2loc, // if on means that location of second register is in 4:0 in case for store and load
 	output wire alusrc, // should we take input from sign extended unit or from register file 1, 0
 	output wire memtoreg, // should data to be going to register file comes from aly in case of r-type or from memory in case of store
@@ -50,7 +51,7 @@ module main_control_unit(
 			in_reg_aluop = 2'b00;
 			in_reg_alusrc = 1'b1;
 			in_reg_memtoreg = 1'b1;
-			in_reg_regwrite = 1'b1;
+			in_reg_regwrite = 1'b0;
 			in_reg_memread = 1'b1;
 			in_reg_memwrite = 1'b0;
 			in_reg_branch = 1'b0;
@@ -58,7 +59,7 @@ module main_control_unit(
 		else if (ins[4] == 1'b1) begin
 			// means R-format
 			in_reg_aluop = 2'b10;
-			in_reg_regwrite = 1'b1;
+			in_reg_regwrite = 1'b0;
 			in_reg_reg2loc = 1'b0;
 			in_reg_alusrc = 1'b0;
 			in_reg_memtoreg = 1'b0;
@@ -73,9 +74,43 @@ module main_control_unit(
 			in_reg_alusrc = 1'b1;
 			in_reg_regwrite = 1'b0;
 			in_reg_memread = 1'b0;
-			in_reg_memwrite = 1'b1;
+			in_reg_memwrite = 1'b0;
 			in_reg_branch = 1'b0;
 		end
+	end
+
+	always @ (posedge clk) begin
+		if (ins[5] == 1'b1) begin
+			// means cbz
+			in_reg_regwrite = 1'b0;
+			in_reg_memread = 1'b0;
+			in_reg_memwrite = 1'b0;
+
+		end
+		else if (ins[1] == 1'b1) begin
+			// means ldr
+			in_reg_regwrite = 1'b1;
+			in_reg_memread = 1'b1;
+			in_reg_memwrite = 1'b0;
+		end
+		else if (ins[4] == 1'b1) begin
+			// means R-format
+			in_reg_regwrite = 1'b1;
+			in_reg_memread = 1'b0;
+			in_reg_memwrite = 1'b0;
+		end
+		else begin
+			// means str
+			in_reg_regwrite = 1'b0;
+			in_reg_memread = 1'b0;
+			in_reg_memwrite = 1'b1;
+		end
+	end
+
+	always @ (posedge turonofclk) begin
+		in_reg_regwrite = 1'b0;
+		in_reg_memread = 1'b0;
+		in_reg_memwrite = 1'b0;
 	end
 
 endmodule

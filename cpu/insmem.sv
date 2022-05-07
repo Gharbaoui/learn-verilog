@@ -20,7 +20,7 @@ module insmem(clk, we, data_addr, write_data, output_data);
 
 
 	initial 
-	$readmemh("out.txt", mem, 0, 7); // look at  start and end address
+	$readmemh("out.txt", mem, 0, 11); // look at  start and end address
 
 	assign output_data = tmpout;
 	always @ (posedge clk) begin

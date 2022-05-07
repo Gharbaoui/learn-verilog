@@ -4,9 +4,9 @@ with 4096 bytes
 *************************************/
 
 
-module mem(address, read_enable, write_enable, clk, data, out);
+module mem(address, read_enable, write_enable, data, out);
 	input wire[31:0] address, data;
-	input wire read_enable, write_enable, clk;
+	input wire read_enable, write_enable;
 	output wire[31:0] out;
 
 
@@ -17,7 +17,7 @@ module mem(address, read_enable, write_enable, clk, data, out);
 	initial 
 		$readmemh("data.txt", ram, 0, 7);
 	assign out = tmpout;
-	always @ (posedge clk) begin
+	always @ (address or read_enable or write_enable or data) begin
 		if (address < 4096) begin
 			if (read_enable == 1'b1) begin
 					tmpout[7:0] = ram[address + 3];
@@ -34,11 +34,11 @@ module mem(address, read_enable, write_enable, clk, data, out);
 		end
 	end
 endmodule
-/*
 
+/*
 module tb_mem;
 	reg[31:0] address, data;
-	reg read_enable, write_enable, clk;
+	reg read_enable, write_enable;
 	wire [31:0] out;
 
 
@@ -47,15 +47,10 @@ module tb_mem;
 		.data(data),
 		.read_enable(read_enable),
 		.write_enable(write_enable),
-		.clk(clk),
 		.out (out)
 	);
 
 
-	initial 
-		clk = 1'b0;
-	always
-		#5 clk = !clk;
 	
 	initial begin
 		// write data when write_enable is false
@@ -84,10 +79,8 @@ module tb_mem;
 		$display("at %d, value = %h", address, out);
 
 		$display();
-		$finish;
 	end
 	
 
 endmodule
-
 */

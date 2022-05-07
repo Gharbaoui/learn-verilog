@@ -60,6 +60,8 @@ int getInstructionFormat(std::string &ins){
 	for (auto &val : ins)
 		val = std::tolower(val);
 	std::cout << ins << "\n";
+	if (ins == "end")
+		return -1;
 	if (ins == "ldr" || ins == "str")
 		return 0; // which means D-type
 	else if (ins == "cbz")
@@ -92,7 +94,7 @@ std::bitset<11> opfields[7] = {
 	0b11111000010,
 	0b11111000000,
 	0b10001011000,
-	0b11001010000,
+	0b11001011000,
 	0b10001010000,
 	0b10101010000,
 
@@ -164,8 +166,8 @@ std::bitset<32>	handelCBType(const std::vector<std::string> &tokens){
 std::bitset<32>	handelRType(const std::vector<std::string> &tokens){
 	std::bitset<11> opfield = lookup(tokens[0]);
 	std::bitset<5> rd = register_number(tokens[1]);
-	std::bitset<5> rm = register_number(tokens[2]);
-	std::bitset<5> rn = register_number(tokens[3]);
+	std::bitset<5> rn = register_number(tokens[2]);
+	std::bitset<5> rm = register_number(tokens[3]);
 	std::bitset<6> shamt = 0b000000;
 
 	auto a = concatnate(opfield, rm);
@@ -206,10 +208,14 @@ int main(int argc, char **argv)
 				// means CB type
 				ins = handelCBType(tokens);
 			}
-			else
+			else if (type == 2)
 			{
 				// means R-type
 				ins = handelRType(tokens);
+			}else if (type == -1)
+			{
+				file << "00 00 00 00\n";
+				break ;
 			}
 			file << convertbitset(ins);
 		} while (1);

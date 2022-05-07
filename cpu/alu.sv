@@ -9,20 +9,19 @@ otherwise value would not change
 ******************************************************************/
 
 
-module alu(a, b, out, clk,  zero, op);
+module alu(a, b, out,  zero, op);
 	input wire[31:0] a, b;
 	input wire[3:0] op;
 	output wire[31:0] out;
 	output wire zero;
 
-	input wire clk;
 
 	reg[31:0] result;
 	reg  tmp;
 	assign out = result;
 	assign zero = tmp;
 
-	always @ (posedge clk) begin
+	always @ (a or b or op) begin
 		case(op)
 		4'b0000:
 			result = a & b;
@@ -51,7 +50,6 @@ module alu_test;
 
 	reg [31:0] A, B;
 	reg [3:0] OP;
-	reg clk;
 	wire [31:0] OUT;
 	wire ZERO;
 
@@ -59,18 +57,10 @@ module alu_test;
 	.a(A),
 	.b(B),
 	.out(OUT),
-	.clk(clk),
 	.zero(ZERO),
 	.op(OP));
 
 
-	initial begin
-		clk = 1'b0;
-	end
-
-	always begin
-		#5 clk = !clk;
-	end
 
 
 
@@ -122,8 +112,15 @@ module alu_test;
 		$display ("B = %h" , B);
 		$display ("result = %h zero flag = %B", OUT, ZERO);
 
-		$finish;
+		OP = 4'b0111;  // opcode for and
+		B = 32'h00000000;
+		A = 32'heeeeeeee;
+		#7;
+		$display("passes b");
+		$display ("A = %h" , A);
+		$display ("B = %h" , B);
+		$display ("result = %h zero flag = %B", OUT, ZERO);
+
 	end
 endmodule
-
 */

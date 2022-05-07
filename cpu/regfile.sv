@@ -8,10 +8,9 @@ we need to read r1 r2 data and write back to r0
 **********************************************************************/
 
 
-module regfile(r1, r2, wrn, wrd, we, clk, out1, out2);
+module regfile(r1, r2, wrn, wrd, we, out1, out2);
 	input [4:0] r1, r2, wrn;
 	input [31:0] wrd;
-	input clk;
 	input we;
 
 	output wire [31:0] out1, out2;
@@ -22,22 +21,26 @@ module regfile(r1, r2, wrn, wrd, we, clk, out1, out2);
 
 
 	reg[31:0] file[31:0];
-
-	always @ (posedge clk) begin
+	
+	initial begin
+		$readmemh("dataregfile.txt", file, 0, 31);
+	end
+	always @ (r1 or r2) begin
 		o1 = file[r1];
 		o2 = file[r2];
+	end
+
+	always @ (wrn or wrd or we) begin
 		if (we) begin
 			file[wrn] = wrd;
 		end
 	end
 	
 endmodule
-
 /*
 module tb_regfile;
 
 	reg[4:0] R1, R2, WRN;
-	reg clk;
 	reg [31:0] data;
 	wire [31:0] OUT1, OUT2;
 	reg WE;
@@ -50,23 +53,17 @@ module tb_regfile;
 		.wrn(WRN),
 		.we(WE),
 		.wrd(data),
-		.clk(clk),
 		.out1(OUT1),
 		.out2(OUT2)
 	);
-	initial begin
-		clk = 1'b0;
-	end
 
-	always 
-		#10 clk = !clk;
 
 	initial begin
 		// file register file
 		WE = 1'b1;
 		for (i = 0; i < 32; ++i) begin
 			WRN = i;
-			data = i;
+			data = i * i;
 			#25;
 		end
 
@@ -80,8 +77,8 @@ module tb_regfile;
 			$display("R1 = %d, value = %d", i, OUT1);
 			$display("R2 = %d, value = %d", i + 1, OUT2);
 		end
-		$finish;
+
+
 	end
 endmodule
-
 */
